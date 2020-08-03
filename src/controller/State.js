@@ -34,20 +34,34 @@ router.route('/')
             res.status(200).json({ success: true, message: "Estados salvos no sistema.", states })
         })
     })
-    .put(async (req, res) => {
-        const { _id, state } = req.body;
+router.route('/:_id')
+    .get((req, res) => {
+        const { _id } = req.params;
         if (mongoose.Types.ObjectId.isValid(_id)) {
-            if (await State.findOne({ name: state.name }))
-                return res.status(400).json({ success: false, message: "Já existe um estado com este nome." });
-            if (await State.findOne({ abbreviation: state.abbreviation }))
-                return res.status(400).json({ success: false, message: "Já existe um estado com esta abreviação." });
-            const state_updated = await State.findByIdAndUpdate(_id, { ...state, date_last_update: new Date() }, { new: true });
-            if (!state_updated) res.status(400).json({ success: false, message: "Estado não encontrado." });
-            else res.status(200).json({ success: true, message: "Estado atualizado com sucesso.", state: state_updated })
+            State.findById(_id).then(state => {
+                res.status(200).json({ success: true, message: "Estado salvo no sistema.", state })
+            })
+        } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
+    })
+    .put(async (req, res) => {
+        const { _id } = req.params;
+        const state_to_update = req.body;
+        if (mongoose.Types.ObjectId.isValid(_id)) {
+            const state = await State.findById(_id);
+            if (state) {
+                const state_name = await State.findOne({ name: state_to_update.name });
+                const state_abbreviation = await State.findOne({ abbreviation: state_to_update.abbreviation });
+                if (state_name && state_name.name !== state.name)
+                    return res.status(400).json({ success: false, message: "Já existe um estado com este nome." });
+                if (state_abbreviation && state_abbreviation.abbreviation !== state.abbreviation)
+                    return res.status(400).json({ success: false, message: "Já existe um estado com esta abreviação." });
+                const state_updated = await State.findByIdAndUpdate(_id, { ...state_to_update, date_last_update: new Date() }, { new: true });
+                res.status(200).json({ success: true, message: "Estado atualizado com sucesso.", state: state_updated })
+            } else res.status(400).json({ success: false, message: "Estado não encontrado." });
         } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
     })
     .delete(async (req, res) => {
-        const { _id } = queryString.parse(req._parsedUrl.query);
+        const { _id } = req.params;
         if (mongoose.Types.ObjectId.isValid(_id)) {
             const state = await State.findById(_id);
             if (!state) return res.status(400).json({ success: false, message: "Estado não encontrado." });
@@ -56,5 +70,5 @@ router.route('/')
             res.status(200).json({})
         } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
     })
-    
+
 module.exports = router;

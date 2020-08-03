@@ -50,20 +50,44 @@ router.route('/')
             })
         })
     })
+
+router.route('/states')
+    .get(async (req, res) => {
+        const states = await State.find();
+        res.status(200).json({
+            success: true, message: "Estados no sistema.", states: states.map(state => {
+                return {
+                    value: state._id,
+                    viewValue: state.name
+                }
+            })
+        })
+    })
+
+router.route('/:_id')
+    .get((req, res) => {
+        const { _id } = req.params;
+        if (mongoose.Types.ObjectId.isValid(_id)) {
+            City.findById(_id).then(city => {
+                res.status(200).json({ success: true, message: "Cidade salva no sistema.", city })
+            })
+        } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
+    })
     .put(async (req, res) => {
-        const { _id, name } = req.body;
+        const { _id } = req.params;
+        const { name, state_id } = req.body;
         if (mongoose.Types.ObjectId.isValid(_id)) {
             const city = await City.findById(_id);
-            if (!city)
-                return res.status(400).json({ success: false, message: "Cidade não encontrada." });
-            if (await City.findOne({ name, state_id: city.state_id }))
-                return res.status(400).json({ success: false, message: "Já existe uma cidade com este nome em seu estado." });
-            const city_updated = await City.findByIdAndUpdate(_id, { name, date_last_update: new Date() }, { new: true });
-            res.status(200).json({ success: true, message: "Cidade atualizada com sucesso.", city: city_updated })
+            if (city) {
+                if (await City.findOne({ name, state_id }))
+                    return res.status(400).json({ success: false, message: "Já existe uma cidade com este nome em seu estado." });
+                const city_updated = await City.findByIdAndUpdate(_id, { name, state_id, date_last_update: new Date() }, { new: true });
+                res.status(200).json({ success: true, message: "Cidade atualizada com sucesso.", city: city_updated })
+            } else res.status(400).json({ success: false, message: "Cidade não encontrada." });
         } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
     })
     .delete(async (req, res) => {
-        const { _id } = queryString.parse(req._parsedUrl.query);
+        const { _id } = req.params;
         if (mongoose.Types.ObjectId.isValid(_id)) {
             const city = await City.findById(_id);
             if (!city) return res.status(400).json({ success: false, message: "Cidade não encontrado." });
