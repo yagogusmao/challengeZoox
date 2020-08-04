@@ -10,8 +10,8 @@ const express = require('express');
 const router = express.Router();
 const State = require('../model/State');
 const City = require('../model/City');
-const queryString = require('query-string');
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 router.route('/')
     .post(async (req, res) => {
@@ -31,15 +31,28 @@ router.route('/')
     })
     .get((req, res) => {
         State.find().then(states => {
-            res.status(200).json({ success: true, message: "Estados salvos no sistema.", states })
+            res.status(200).json({ 
+                success: true, 
+                message: "Estados salvos no sistema.", 
+                states: states.map(state => {
+                    return {
+                        _id: state._id,
+                        name: state.name,
+                        abbreviation: state.abbreviation,
+                        date_creation: moment(state.date_creation).format("DD/MM/YYYY"),
+                        date_last_update: moment(state.date_last_update).format("DD/MM/YYYY"),
+                    }
+                }) 
+            })
         })
     })
 router.route('/:_id')
     .get((req, res) => {
         const { _id } = req.params;
         if (mongoose.Types.ObjectId.isValid(_id)) {
-            State.findById(_id).then(state => {
-                res.status(200).json({ success: true, message: "Estado salvo no sistema.", state })
+            State.findById(_id).then(async state => {
+                const cities = await City.find({state_id: state._id});
+                res.status(200).json({ success: true, message: "Estado salvo no sistema.", state, cities })
             })
         } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
     })
