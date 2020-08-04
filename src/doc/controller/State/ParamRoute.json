@@ -1,0 +1,243 @@
+{
+    "get": {
+        "tags": [
+            "State"
+        ],
+        "description": "This route is for return a single state and all of your cities from his _id.",
+        "parameters": [
+            {
+                "in": "path",
+                "name": "_id",
+                "schema": {
+                    "type": "string"
+                },
+                "required": true,
+                "description": "_id do estado"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Success message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "city"
+                            ],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Estado encontrado no sistema."
+                                },
+                                "state": {
+                                    "type": "object",
+                                    "example": {
+                                        "_id": "5f2435b8190d9e1bb0578437",
+                                        "name": "Paraíba",
+                                        "abbreviation": "PB",
+                                        "date_creation": "2020-07-31T15:16:08.912Z",
+                                        "date_last_update": "2020-08-03T11:19:13.684Z",
+                                        "__v": 0
+                                    }
+                                },
+                                "cities": {
+                                    "type": "list",
+                                    "example": [
+                                        {
+                                            "_id": "5f295157713de32ec429dca4",
+                                            "name": "Campina Grande",
+                                            "state_id": "5f2435b8190d9e1bb0578437",
+                                            "date_creation": "2020-08-04T12:15:19.965Z",
+                                            "date_last_update": "2020-08-04T12:15:19.965Z",
+                                            "__v": 0
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            },
+            "400": {
+                "description": "Failed message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Insira um formato válido de _id."
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        }
+    },
+    "put": {
+        "tags": [
+            "State"
+        ],
+        "description": "This route is for update a state from his _id.",
+        "parameters": [
+            {
+                "in": "path",
+                "name": "_id",
+                "schema": {
+                    "type": "string"
+                },
+                "required": true,
+                "description": "_id do estado"
+            }
+        ],
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "state_id"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Rio de Janeiro"
+                            },
+                            "abbreviation": {
+                                "type": "string",
+                                "example": "RJ"
+                            }
+                        }
+                    }
+                },
+                "required": true
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Success message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Estado atualizado com sucesso."
+                                },
+                                "state": {
+                                    "$ref": "#/components/schemas/State"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Estado não encontrado.",
+                                    "enum": [
+                                        "Já existe um estado com este nome.",
+                                        "Já existe um estado com esta abreviação.",
+                                        "Estado não encontrado.",
+                                        "Insira um formato válido de _id."
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "delete": {
+        "tags": [
+            "State"
+        ],
+        "description": "This route is for remove from database one state from his _id.",
+        "parameters": [
+            {
+                "in": "path",
+                "name": "_id",
+                "schema": {
+                    "type": "string"
+                },
+                "required": true,
+                "description": "_id do estado"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Success message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "state"
+                            ],
+                            "properties": {}
+                        }
+                    },
+                    "required": true
+                }
+            },
+            "400": {
+                "description": "Failed message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Estado não encontrado.",
+                                    "enum": [
+                                        "Estado não encontrado.",
+                                        "Insira um formato válido de _id."
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "required": [
+        "_id",
+        "name",
+        "state_id",
+        "date_creation",
+        "date_last_update"
+    ],
+    "properties": {
+        "_id": {
+            "type": "string",
+            "example": "5f295157713de32ec429dca4"
+        },
+        "name": {
+            "type": "string",
+            "example": "Campina Grande"
+        },
+        "state_id": {
+            "type": "string",
+            "example": "5f2435b8190d9e1bb0578437"
+        },
+        "date_creation": {
+            "type": "date",
+            "example": "2020-08-04T12:15:19.965Z"
+        },
+        "date_last_update": {
+            "type": "date",
+            "example": "2020-08-04T12:15:19.965Z"
+        }
+    }
+}

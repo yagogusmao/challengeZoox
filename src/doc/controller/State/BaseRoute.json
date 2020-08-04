@@ -1,0 +1,141 @@
+{
+    "get": {
+        "tags": [
+            "State"
+        ],
+        "description": "This route is to return all states in database.",
+        "parameters": [],
+        "responses": {
+            "200": {
+                "description": "Success message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "_id",
+                                "name",
+                                "abbreviation",
+                                "date_creation",
+                                "date_last_update"
+                            ],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Estados salvos no sistema."
+                                },
+                                "cities": {
+                                    "type": "list",
+                                    "example": [
+                                        {
+                                            "_id": "5f2435b8190d9e1bb0578437",
+                                            "name": "Paraíba",
+                                            "abbreviation": "PB",
+                                            "date_creation": "31/07/2020",
+                                            "date_last_update": "03/08/2020"
+                                        },
+                                        {
+                                            "_id": "5f28ac7082e88b35448255e8",
+                                            "name": "Mato Grosso do Sul",
+                                            "abbreviation": "MS",
+                                            "date_creation": "03/08/2020",
+                                            "date_last_update": "03/08/2020"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        }
+    },
+    "post": {
+        "tags": [
+            "State"
+        ],
+        "description": "This route is for registering new states",
+        "parameters": [],
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "abbreviation"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Paraíba"
+                            },
+                            "abbreviation": {
+                                "type": "string",
+                                "example": "PB"
+                            }
+                        }
+                    }
+                },
+                "required": true
+            }
+        },
+        "responses": {
+            "201": {
+                "description": "Success message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Estado criado com sucesso."
+                                },
+                                "city": {
+                                    "$ref": "#/components/schemas/State"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Já existe um estado com este nome.",
+                                    "enum": [
+                                        "Já existe um estado com este nome.",
+                                        "Já existe um estado com esta abreviação.",
+                                        "Erro na hora de salvar o estado.",
+                                        "O tipo do nome deve ser string.",
+                                        "O tipo da abreviação deve ser string."
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

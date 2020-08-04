@@ -24,9 +24,9 @@ router.route('/')
             try {
                 const city = new City();
                 city.create(name, state_id);
-                await city.save((error, state) => {
+                await city.save((error, city) => {
                     if (error) res.status(400).json({ success: false, message: "Erro na hora de salvar a cidade." });
-                    else res.status(201).json({ success: true, message: "Cidade criada com sucesso.", state })
+                    else res.status(201).json({ success: true, message: "Cidade criada com sucesso.", city })
                 })
             } catch (error) { res.status(400).json({ success: false, message: error + "" }) }
         } else res.status(400).json({ success: false, message: "Insira um formato válido de _id para Estado." });
@@ -88,7 +88,7 @@ router.route('/:_id')
                 const city_updated = await City.findByIdAndUpdate(_id, { name, state_id, date_last_update: new Date() }, { new: true });
                 res.status(200).json({ success: true, message: "Cidade atualizada com sucesso.", city: city_updated })
             } else res.status(400).json({ success: false, message: "Cidade não encontrada." });
-        } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
+        } else res.status(400).json({ success: false, message: "Insira um formato válido de _id para Cidade." });
     })
     .delete(async (req, res) => {
         const { _id } = req.params;
@@ -97,7 +97,7 @@ router.route('/:_id')
             if (!city) return res.status(400).json({ success: false, message: "Cidade não encontrada." });
             await city.deleteOne();
             res.status(200).json({})
-        } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
+        } else res.status(400).json({ success: false, message: "Insira um formato válido de _id para Cidade." });
     })
 
 module.exports = router;

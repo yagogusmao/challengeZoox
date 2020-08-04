@@ -52,7 +52,7 @@ router.route('/:_id')
         if (mongoose.Types.ObjectId.isValid(_id)) {
             State.findById(_id).then(async state => {
                 const cities = await City.find({state_id: state._id});
-                res.status(200).json({ success: true, message: "Estado salvo no sistema.", state, cities })
+                res.status(200).json({ success: true, message: "Estado encontrado no sistema.", state, cities })
             })
         } else res.status(400).json({ success: false, message: "Insira um formato válido de _id." });
     })

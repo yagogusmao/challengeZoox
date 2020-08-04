@@ -1,0 +1,136 @@
+{
+    "get": {
+        "tags": [
+            "City"
+        ],
+        "description": "This route is for return all of cities in database and his states.",
+        "parameters": [],
+        "responses": {
+            "200": {
+                "description": "Success message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "_id",
+                                "name",
+                                "state_id",
+                                "state_name",
+                                "date_creation",
+                                "date_last_update"
+                            ],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Cidades salvas no sistema."
+                                },
+                                "cities": {
+                                    "type": "list",
+                                    "example": [
+                                        {
+                                            "_id": "5f295157713de32ec429dca4",
+                                            "name": "Campina Grande",
+                                            "state_id": "5f2435b8190d9e1bb0578437",
+                                            "state_name": "Paraíba",
+                                            "date_creation": "2020-08-04T12:15:19.965Z",
+                                            "date_last_update": "2020-08-04T12:15:19.965Z"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        }
+    },
+    "post": {
+        "tags": [
+            "City"
+        ],
+        "description": "This route is for registering new cities in states.",
+        "parameters": [],
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "state_id"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Campina Grande"
+                            },
+                            "state_id": {
+                                "type": "string",
+                                "example": "5f2435b8190d9e1bb0578437"
+                            }
+                        }
+                    }
+                },
+                "required": true
+            }
+        },
+        "responses": {
+            "201": {
+                "description": " Success message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Cidade criada com sucesso."
+                                },
+                                "city": {
+                                    "$ref": "#/components/schemas/City"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Estado não encontrado.",
+                                    "enum": [
+                                        "Estado não encontrado.",
+                                        "Já existe uma cidade com este nome em seu estado.",
+                                        "Erro na hora de salvar a cidade.",
+                                        "Insira um formato válido de _id para Estado.",
+                                        "O tipo do nome deve ser string."
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

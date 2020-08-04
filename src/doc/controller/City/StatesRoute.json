@@ -1,0 +1,50 @@
+{
+    "get": {
+        "tags": [
+            "City"
+        ],
+        "description": "This route is for return all available states to cities",
+        "parameters": [],
+        "responses": {
+            "200": {
+                "description": "Success message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [],
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Estados no sistema."
+                                },
+                                "states": {
+                                    "type": "list",
+                                    "example": [
+                                        {
+                                            "value": "5f2435b8190d9e1bb0578437",
+                                            "viewValue": "Paraíba"
+                                        },
+                                        {
+                                            "value": "5f27f64a0bf71031c419adaf",
+                                            "viewValue": "Pernambuco"
+                                        },
+                                        {
+                                            "value": "5f28ac7082e88b35448255e8",
+                                            "viewValue": "Mato Grosso do Sul"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        }
+    }
+}

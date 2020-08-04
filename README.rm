@@ -1,1 +1,2 @@
-https://insomnia.rest/run/?label=Zoox%20Challenge&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fyagogusmao%2FchallengeZoox%2Fmaster%2Fexport.json
+To see this OpenAPI in insomnia: https://insomnia.rest/run/?label=Zoox%20Challenge&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fyagogusmao%2FchallengeZoox%2Fmaster%2Fexport.json
+To see this OpenAPI in swagger: run this project localy and go to /docs route in browser.

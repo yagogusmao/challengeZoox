@@ -8,6 +8,9 @@ var cors = require('cors');
 require('dotenv').config();
 require('./src/config/Config');
 
+const SwaggerSpecs = require('./src/config/Swagger');
+const swaggerUi = require('swagger-ui-express');
+
 var app = express();
 
 app.use(cors());
@@ -18,6 +21,8 @@ app.all('/*', function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(SwaggerSpecs));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
